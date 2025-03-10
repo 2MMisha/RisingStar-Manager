@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Judging</title>
+	<style>
+        .change-button {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #004aad;
+            color: white;
+            font-size: 1.5rem;
+            padding: 15px 0;
+            border: none;
+            border-top: 3px solid black;
+            cursor: pointer;
+        }
+        .change-button:hover {
+            background-color: #004aad;
+        }
+    </style>
     <script>
         // Обновление отображаемого значения ползунка
         function updateSliderValue(slider, displayId) {
@@ -46,5 +64,8 @@
             <button type="submit">Submit</button>
         </form>
     </div>
+	</button>
+        <button class="change-button" onclick="window.location.href='{{ url_for('select_category') }}'"><H4>CHOOSE ANOTHER CATEGORY</H4></button>
+	
 </body>
 </html>
