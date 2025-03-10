@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Display Scores</title>
+    <script>
+        async function fetchScores() {
+            // Get the current contestant number
+            const contestantResponse = await fetch('/get_current_contestant');
+            const contestantData = await contestantResponse.json();
+            const contestantNumber = contestantData.contestant_number;
+
+            // Fetch scores for the current contestant
+            const scoresResponse = await fetch(`/get_scores/${contestantNumber}`);
+            const scoresData = await scoresResponse.json();
+
+            // Update the display
+            document.getElementById('contestant-name').innerText = `${scoresData.contestant.name} (${scoresData.contestant.category})`;
+            const tableBody = document.getElementById('scores-table-body');
+            tableBody.innerHTML = '';  // Clear previous scores
+            scoresData.judges.forEach(judge => {
+                const score = scoresData.scores.find(s => s.judge === judge)?.weighted_score || 'No score';
+                const row = `<tr><td>${judge}</td><td>${score}</td></tr>`;
+                tableBody.insertAdjacentHTML('beforeend', row);
+            });
+        }
+
+        // Refresh the scores every 5 seconds
+        setInterval(fetchScores, 5000);
+        window.onload = fetchScores;  // Fetch scores when the page loads
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black; /* Change background color to black */
+            color: white; /* Ensure the text is readable */
+            background-image: url('/static/media/background_anim.gif'); /* Add GIF background */
+            background-size: cover; /* Ensure the GIF covers the entire background */
+            background-position: center; /* Center the background */
+            background-attachment: fixed; /* Make background stay fixed when scrolling */
+        }
+
+        header {
+            background-color: rgba(0, 123, 255, 0.7); /* Add transparency to header */
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .logo {
+            height: 50px;
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        main {
+            padding: 1rem;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        button, .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        button:hover, .button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        table th {
+            background-color: rgba(0, 123, 255, 0.7); /* Add transparency to table header */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="/static/logo-w.png" alt="Logo" class="logo">
+        <h1>Display Scores</h1>
+    </header>
+    <main>
+        <h2 id="contestant-name">Loading...</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Judge</th>
+                    <th>Weighted Score</th>
+                </tr>
+            </thead>
+            <tbody id="scores-table-body">
+                <!-- Scores will be populated here -->
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

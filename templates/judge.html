@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Judge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+    <h1>Select Judge</h1>
+    <form action="{{ url_for('select_category') }}" method="get">
+        <select name="judge">
+            {% for judge in judges %}
+            <option value="{{ judge }}">{{ judge }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">OK</button>
+    </form>
+</body>
+</html>

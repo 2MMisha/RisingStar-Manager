@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RSM Nav</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        .nav-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+        .nav-buttons button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.2rem;
+        }
+        .nav-buttons img {
+            max-width: 100%;
+        }
+        .reset-button {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: red;
+            color: white;
+            font-size: 1.5rem;
+            padding: 15px 0;
+            border: none;
+            border-top: 3px solid darkred;
+            cursor: pointer;
+        }
+        .reset-button:hover {
+            background-color: darkred;
+        }
+    </style>
+    <script>
+        function confirmReset() {
+            if (confirm("האם אתה בטוח שברצונך לאפס את הנתונים?")) {
+                if (confirm("אישור אחרון, האם אתה בטוח לחלוטין?")) {
+                    fetch('/reset', { method: 'POST' })
+                        .then(response => response.json())
+                        .then(data => alert(data.message))
+                        .catch(error => alert("שגיאה בעת איפוס הנתונים: " + error));
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Navigation Panel</h1>
+    <div class="nav-buttons">
+        <button onclick="window.location.href='{{ url_for('select_judge') }}'">
+            <img src="{{ url_for('static', filename='media/judge.png') }}" alt="Judge">
+        </button>
+        <button onclick="window.location.href='{{ url_for('results') }}'">
+            <img src="{{ url_for('static', filename='media/results.png') }}" alt="Results">
+        </button>
+        <button onclick="window.location.href='{{ url_for('control_page') }}'">
+            <img src="{{ url_for('static', filename='media/control.png') }}" alt="Control">
+        </button>
+        <button onclick="window.location.href='{{ url_for('display_page') }}'">
+            <img src="{{ url_for('static', filename='media/display.png') }}" alt="Display">
+        </button>
+    </div>
+
+    <button class="reset-button" onclick="confirmReset()">🔄 איפוס נתונים</button>
+</body>
+</html>

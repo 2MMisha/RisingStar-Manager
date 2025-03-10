@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judging</title>
+    <script>
+        // Обновление отображаемого значения ползунка
+        function updateSliderValue(slider, displayId) {
+            const display = document.getElementById(displayId);
+            display.textContent = slider.value;
+        }
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+        <h1>Judging for {{ category }}</h1>
+        <form method="POST" class="form">
+            <label for="contestant">Contestant</label>
+            <select name="contestant" id="contestant" required>
+                {% for contestant in contestants %}
+                {% if contestant.number not in judged_contestants %}
+                <option value="{{ contestant.number }}">{{ contestant.number }} - {{ contestant.name }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+
+            {% for criterion in criteria %}
+            <div class="criterion">
+                <label for="{{ criterion.name }}">{{ criterion.name }} ({{ criterion.weight }}%)</label>
+                <input type="range" 
+                       id="{{ criterion.name }}" 
+                       name="{{ criterion.name }}" 
+                       min="{{ criterion.min_score }}" 
+                       max="{{ criterion.max_score }}" 
+                       step="{{ 0.5 if allow_decimal else 1 }}" 
+                       value="{{ criterion.min_score }}" 
+                       oninput="updateSliderValue(this, '{{ criterion.name }}_value')" 
+                       required>
+                <span id="{{ criterion.name }}_value">{{ criterion.min_score }}</span>
+            </div>
+            {% endfor %}
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Control Page</title>
+    <script>
+        async function setContestant(contestantNumber) {
+            const response = await fetch('/set_current_contestant', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ contestant_number: contestantNumber }),
+            });
+            const result = await response.json();
+            alert(`Contestant ${result.contestant_number} is now displayed.`);
+        }
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Control Panel</h1>
+    <h2>Select Contestant to Display</h2>
+    <div>
+        {% for contestant in contestants %}
+        <button onclick="setContestant({{ contestant.number }})">
+            {{ contestant.name }} ({{ contestant.category }})
+        </button>
+        {% endfor %}
+    </div>
+</body>
+</html>

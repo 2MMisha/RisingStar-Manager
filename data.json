@@ -1,0 +1,51 @@
+{
+    "judges": [
+        "Judge1",
+        "Judge2",
+        "Judge3"
+    ],
+    "contestants": [
+        {
+            "number": 1,
+            "name": "Alice",
+            "category": "Singing"
+        },
+        {
+            "number": 2,
+            "name": "Bob",
+            "category": "Singing"
+        },
+        {
+            "number": 3,
+            "name": "Charlie",
+            "category": "Dancing"
+        },
+        {
+            "number": 4,
+            "name": "Diana",
+            "category": "Dancing"
+        }
+    ],
+    "criteria": [
+        {
+            "name": "Creativity",
+            "weight": 40,
+            "min_score": 0,
+            "max_score": 10
+        },
+        {
+            "name": "Technique",
+            "weight": 30,
+            "min_score": 0,
+            "max_score": 10
+        },
+        {
+            "name": "Stage Presence",
+            "weight": 30,
+            "min_score": 0,
+            "max_score": 10
+        }
+    ],
+    "scores": [
+    ]
+}
