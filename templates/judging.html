@@ -28,6 +28,33 @@
             const display = document.getElementById(displayId);
             display.textContent = slider.value;
         }
+	document.addEventListener("DOMContentLoaded", function () {
+        const spinner = document.getElementById("loading-spinner");
+
+        // Показать спиннер при начале загрузки страницы
+        spinner.style.display = "flex";
+
+        // Скрыть спиннер после полной загрузки страницы
+        window.addEventListener("load", function () {
+            spinner.style.display = "none";
+        });
+
+        // Показать спиннер при переходах по ссылкам
+        document.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", function () {
+                spinner.style.display = "flex";
+            });
+        });
+
+        // AJAX-запросы (если используются)
+        document.addEventListener("ajaxStart", function () {
+            spinner.style.display = "flex";
+        });
+
+        document.addEventListener("ajaxStop", function () {
+            spinner.style.display = "none";
+        });
+    });
     </script>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
@@ -65,7 +92,7 @@
         </form>
     </div>
 	</button>
-        <button class="change-button" onclick="window.location.href='{{ url_for('select_category') }}'"><H4>CHOOSE ANOTHER CATEGORY</H4></button>
+        <button class="change-button" onclick="window.location.href='{{ url_for('select_judge') }}'"><H4>CHOOSE ANOTHER CATEGORY</H4></button>
 	
 </body>
 </html>

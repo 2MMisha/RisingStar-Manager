@@ -14,6 +14,33 @@
             const result = await response.json();
             alert(`Contestant ${result.contestant_number} is now displayed.`);
         }
+		document.addEventListener("DOMContentLoaded", function () {
+        const spinner = document.getElementById("loading-spinner");
+
+        // Показать спиннер при начале загрузки страницы
+        spinner.style.display = "flex";
+
+        // Скрыть спиннер после полной загрузки страницы
+        window.addEventListener("load", function () {
+            spinner.style.display = "none";
+        });
+
+        // Показать спиннер при переходах по ссылкам
+        document.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", function () {
+                spinner.style.display = "flex";
+            });
+        });
+
+        // AJAX-запросы (если используются)
+        document.addEventListener("ajaxStart", function () {
+            spinner.style.display = "flex";
+        });
+
+        document.addEventListener("ajaxStop", function () {
+            spinner.style.display = "none";
+        });
+    });
     </script>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>

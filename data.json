@@ -47,5 +47,65 @@
         }
     ],
     "scores": [
+        {
+            "judge": "Judge2",
+            "contestant": "4",
+            "weighted_score": 4.95
+        },
+        {
+            "judge": "Judge2",
+            "contestant": "3",
+            "weighted_score": 7.1
+        },
+        {
+            "judge": "Judge1",
+            "contestant": "3",
+            "weighted_score": 4.7
+        },
+        {
+            "judge": "Judge1",
+            "contestant": "4",
+            "weighted_score": 7.45
+        },
+        {
+            "judge": "Judge3",
+            "contestant": "3",
+            "weighted_score": 3.6
+        },
+        {
+            "judge": "Judge3",
+            "contestant": "4",
+            "weighted_score": 9.05
+        },
+        {
+            "judge": "Judge1",
+            "contestant": "1",
+            "weighted_score": 5.6
+        },
+        {
+            "judge": "Judge1",
+            "contestant": "2",
+            "weighted_score": 4.9
+        },
+        {
+            "judge": "Judge2",
+            "contestant": "2",
+            "weighted_score": 0.0
+        },
+        {
+            "judge": "Judge2",
+            "contestant": "1",
+            "weighted_score": 10.0
+        },
+        {
+            "judge": "Judge3",
+            "contestant": "1",
+            "weighted_score": 4.25
+        },
+        {
+            "judge": "Judge3",
+            "contestant": "2",
+            "weighted_score": 6.55
+        }
     ]
 }
