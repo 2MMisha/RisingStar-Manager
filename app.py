@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask_socketio import SocketIO, emit  # Импортируем SocketIO
 import json
 import os
 from threading import Lock
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret!'  # Секретный ключ для Flask-SocketIO
+socketio = SocketIO(app)  # Инициализация SocketIO
 
 # Construct the path to data.json and settings.json
 base_dir = os.path.dirname(os.path.abspath(__file__))  # Current directory
@@ -22,6 +25,17 @@ allow_decimal = settings["allow_decimal"]
 # Shared state for the currently selected contestant
 current_contestant = 1  # Default to the first contestant
 lock = Lock()  # To ensure thread-safe updates
+
+# Состояние экрана ожидания
+waiting_screen_active = False
+
+# WebSocket: Переключение экрана ожидания
+@socketio.on('toggle_waiting_screen')
+def handle_toggle_waiting_screen(data):
+    global waiting_screen_active
+    waiting_screen_active = data['active']
+    # Отправляем состояние всем клиентам
+    emit('update_waiting_screen', {'active': waiting_screen_active}, broadcast=True)
 
 # Home route to select a judge
 @app.route("/")
@@ -181,4 +195,4 @@ def save_data():
         json.dump(data, f, indent=4)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')  # Allow access from other devices on the network
+    socketio.run(app, debug=True, host='0.0.0.0')  # Запуск с поддержкой WebSocket

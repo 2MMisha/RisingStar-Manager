@@ -2,7 +2,22 @@
 <html>
 <head>
     <title>Control Page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
     <script>
+        // Подключение к WebSocket
+        const socket = io();
+
+        // Функция для переключения режима ожидания
+        function toggleWaitingScreen() {
+            const isActive = !document.getElementById('waiting-screen-toggle').classList.contains('active');
+            socket.emit('toggle_waiting_screen', { active: isActive });
+
+            // Обновляем состояние кнопки
+            document.getElementById('waiting-screen-toggle').classList.toggle('active', isActive);
+            document.getElementById('waiting-screen-toggle').innerText = isActive ? 'Exit Waiting Screen' : 'Enter Waiting Screen';
+        }
+
+        // Функция для установки участника
         async function setContestant(contestantNumber) {
             const response = await fetch('/set_current_contestant', {
                 method: 'POST',
@@ -14,47 +29,65 @@
             const result = await response.json();
             alert(`Contestant ${result.contestant_number} is now displayed.`);
         }
-		document.addEventListener("DOMContentLoaded", function () {
-        const spinner = document.getElementById("loading-spinner");
 
-        // Показать спиннер при начале загрузки страницы
-        spinner.style.display = "flex";
+        // Логика для спиннера загрузки
+        document.addEventListener("DOMContentLoaded", function () {
+            const spinner = document.getElementById("loading-spinner");
 
-        // Скрыть спиннер после полной загрузки страницы
-        window.addEventListener("load", function () {
-            spinner.style.display = "none";
-        });
+            // Показать спиннер при начале загрузки страницы
+            spinner.style.display = "flex";
 
-        // Показать спиннер при переходах по ссылкам
-        document.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", function () {
+            // Скрыть спиннер после полной загрузки страницы
+            window.addEventListener("load", function () {
+                spinner.style.display = "none";
+            });
+
+            // Показать спиннер при переходах по ссылкам
+            document.querySelectorAll("a").forEach(link => {
+                link.addEventListener("click", function () {
+                    spinner.style.display = "flex";
+                });
+            });
+
+            // AJAX-запросы (если используются)
+            document.addEventListener("ajaxStart", function () {
                 spinner.style.display = "flex";
             });
-        });
 
-        // AJAX-запросы (если используются)
-        document.addEventListener("ajaxStart", function () {
-            spinner.style.display = "flex";
+            document.addEventListener("ajaxStop", function () {
+                spinner.style.display = "none";
+            });
         });
-
-        document.addEventListener("ajaxStop", function () {
-            spinner.style.display = "none";
-        });
-    });
     </script>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Стили для кнопки режима ожидания */
+        #waiting-screen-toggle {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        #waiting-screen-toggle.active {
+            background-color: #28a745; /* Зеленый цвет для активного состояния */
+        }
+    </style>
 </head>
-<body>
 <body>
     <div id="loading-spinner">
         <div class="spinner"></div>
         <p class="loading-text">Loading...</p>
     </div>
 
-    <!-- Остальной контент страницы -->
-
     <h1>Control Panel</h1>
     <h2>Select Contestant to Display</h2>
+
+    <!-- Кнопка для переключения режима ожидания -->
+    <button id="waiting-screen-toggle" onclick="toggleWaitingScreen()">Enter Waiting Screen</button>
+
     <div>
         {% for contestant in contestants %}
         <button onclick="setContestant({{ contestant.number }})">
