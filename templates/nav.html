@@ -3,6 +3,7 @@
 <head>
     <title>RSM Nav</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
     <style>
         body {
             display: flex;
@@ -11,6 +12,10 @@
             height: 100vh;
             margin: 0;
             position: relative;
+            transition: background 0.3s ease;
+        }
+        body.red-background {
+            background: red;
         }
         h1 {
             margin-top: 20px;
@@ -24,77 +29,63 @@
         }
         .nav-buttons button {
             width: 100%;
-            padding: 10px;
-            font-size: 1.2rem;
+            padding: 0;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        .nav-buttons button:focus,
+        .nav-buttons button:hover {
+            outline: none;
+            box-shadow: none;
         }
         .nav-buttons img {
             max-width: 100%;
         }
         .reset-button {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: red;
-            color: white;
-            font-size: 1.5rem;
-            padding: 15px 0;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 100px;
+            background: url("{{ url_for('static', filename='media/reset.png') }}") no-repeat center center;
+            background-size: contain;
             border: none;
-            border-top: 3px solid darkred;
             cursor: pointer;
         }
-        .reset-button:hover {
-            background-color: darkred;
+        .reset-button:hover ~ body {
+            background: red;
         }
     </style>
     <script>
         function confirmReset() {
-            if (confirm("האם אתה בטוח שברצונך לאפס את הנתונים?")) {
-                if (confirm("אישור אחרון, האם אתה בטוח לחלוטין?")) {
+            if (confirm("Are you sure you want to reset the data?")) {
+                if (confirm("Final confirmation, are you absolutely sure?")) {
                     fetch('/reset', { method: 'POST' })
                         .then(response => response.json())
                         .then(data => alert(data.message))
-                        .catch(error => alert("שגיאה בעת איפוס הנתונים: " + error));
+                        .catch(error => alert("Error resetting data: " + error));
                 }
             }
         }
-		document.addEventListener("DOMContentLoaded", function () {
-        const spinner = document.getElementById("loading-spinner");
 
-        // Показать спиннер при начале загрузки страницы
-        spinner.style.display = "flex";
-
-        // Скрыть спиннер после полной загрузки страницы
-        window.addEventListener("load", function () {
-            spinner.style.display = "none";
-        });
-
-        // Показать спиннер при переходах по ссылкам
-        document.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", function () {
-                spinner.style.display = "flex";
+        document.addEventListener("DOMContentLoaded", function () {
+            const resetButton = document.querySelector(".reset-button");
+            resetButton.addEventListener("mouseenter", function () {
+                document.body.classList.add("red-background");
+            });
+            resetButton.addEventListener("mouseleave", function () {
+                document.body.classList.remove("red-background");
             });
         });
-
-        // AJAX-запросы (если используются)
-        document.addEventListener("ajaxStart", function () {
-            spinner.style.display = "flex";
-        });
-
-        document.addEventListener("ajaxStop", function () {
-            spinner.style.display = "none";
-        });
-    });
     </script>
 </head>
-<body>
 <body>
     <div id="loading-spinner">
         <div class="spinner"></div>
         <p class="loading-text">Loading...</p>
     </div>
-
-    <!-- Остальной контент страницы -->
 
     <h1>Navigation Panel</h1>
     <div class="nav-buttons">
@@ -112,6 +103,6 @@
         </button>
     </div>
 
-    <button class="reset-button" onclick="confirmReset()">🔄 איפוס נתונים</button>
+    <button class="reset-button" onclick="confirmReset()"></button>
 </body>
 </html>

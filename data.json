@@ -2,7 +2,9 @@
     "judges": [
         "Judge1",
         "Judge2",
-        "Judge3"
+        "Judge3",
+		"Judge4",
+		"Judge5"
     ],
     "contestants": [
         {
@@ -106,6 +108,16 @@
             "judge": "Judge3",
             "contestant": "2",
             "weighted_score": 6.55
+        },
+		  {
+            "judge": "Judge4",
+            "contestant": "1",
+            "weighted_score": 5.6
+        },
+        {
+            "judge": "Judge5",
+            "contestant": "1",
+            "weighted_score": 4.9
         }
     ]
 }

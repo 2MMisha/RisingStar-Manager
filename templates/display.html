@@ -2,48 +2,48 @@
 <html>
 <head>
     <title>Display Scores</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+    <script src="/static/js/socket.io.js"></script>
     <script>
-        // Подключение к WebSocket
         const socket = io();
 
-        // Функция для получения и обновления оценок
         async function fetchScores() {
-            // Получаем текущий номер участника
             const contestantResponse = await fetch('/get_current_contestant');
             const contestantData = await contestantResponse.json();
             const contestantNumber = contestantData.contestant_number;
 
-            // Получаем оценки для текущего участника
             const scoresResponse = await fetch(`/get_scores/${contestantNumber}`);
             const scoresData = await scoresResponse.json();
 
-            // Обновляем отображение
             document.getElementById('contestant-name').innerText = `${scoresData.contestant.name} (${scoresData.contestant.category})`;
             const tableBody = document.getElementById('scores-table-body');
-            tableBody.innerHTML = '';  // Очищаем предыдущие оценки
+            tableBody.innerHTML = '';
+            let totalScore = 0;
+            let scoreCount = 0;
+
             scoresData.judges.forEach(judge => {
-                const score = scoresData.scores.find(s => s.judge === judge)?.weighted_score || 'No score';
+                const score = scoresData.scores.find(s => s.judge === judge)?.weighted_score || 0;
+                totalScore += parseFloat(score);
+                scoreCount += score ? 1 : 0;
                 const row = `<tr><td>${judge}</td><td>${score}</td></tr>`;
                 tableBody.insertAdjacentHTML('beforeend', row);
             });
+
+            const averageScore = scoreCount ? (totalScore / scoreCount).toFixed(2) : 'No score';
+            document.getElementById('final-score').innerText = `TOTAL: ${averageScore}`;
         }
 
-        // Обновляем оценки каждые 5 секунд
         setInterval(fetchScores, 5000);
-        window.onload = fetchScores;  // Получаем оценки при загрузке страницы
+        window.onload = fetchScores;
 
-        // Обновляем время каждую секунду
         function updateTime() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString();
+            const timeString = now.toLocaleTimeString([], { hour12: false }); // 24-hour format
             document.getElementById('waiting-time').innerText = timeString;
         }
 
         setInterval(updateTime, 1000);
-        window.onload = updateTime;  // Обновляем время при загрузке страницы
+        window.onload = updateTime;
 
-        // Обработка состояния экрана ожидания через WebSocket
         socket.on('update_waiting_screen', function(data) {
             const waitingScreen = document.getElementById('waiting-screen');
             if (data.active) {
@@ -53,126 +53,159 @@
             }
         });
     </script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
-    <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: black;
-            color: white;
-            background-image: url('/static/media/background_anim.gif');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
+<style>
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: white;
+    background-image: url('/static/media/background_anim.gif');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    overflow: hidden;
+}
 
-        header {
-            background-color: rgba(0, 123, 255, 0.7);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
+header {
+    text-align: center;
+    margin-top: 10px;
+}
 
-        .logo {
-            height: 50px;
-            display: block;
-            margin: 0 auto 10px;
-        }
+h1, h2 {
+    font-size: 3.75rem;
+    margin: 0;
+}
 
-        main {
-            padding: 1rem;
-        }
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+    overflow: hidden;
+}
 
-        h1, h2 {
-            text-align: center;
-        }
+#contestant-name {
+    margin-top: 5px;
+    font-size: 5rem;
+}
 
-        form {
-            max-width: 500px;
-            margin: 0 auto;
-        }
+table {
+    width: 90%;
+    height: 50%;
+    max-width: 1200px;
+    margin-top: 5px;
+    border-collapse: collapse;
+    margin-bottom: 5px;
+    overflow-y: auto;
+}
 
-        button, .button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
+th, td {
+    text-align: center;
+    font-weight: bold;
+    font-size: 3.75rem;
+    padding: 15px;
+}
 
-        button:hover, .button:hover {
-            background-color: #0056b3;
-        }
+th {
+    background-color: rgba(0, 123, 255, 0.7);
+    color: white;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-        }
+td {
+    background-color: #333;
+}
 
-        table th, table td {
-            border: 1px solid #ddd;
-            padding: 0.5rem;
-            text-align: center;
-        }
+#final-score {
+    font-size: 5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5px;
+    padding: 20px;
+    background-color: rgba(0, 123, 255, 0.7);
+    color: white;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
 
-        table th {
-            background-color: rgba(0, 123, 255, 0.7);
-            color: white;
-        }
+#waiting-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(30px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease, visibility 1s ease;
+    font-size: 3.125rem;
+}
 
-        #waiting-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            background-image: url('/static/media/background_anim.gif');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
+#waiting-screen.visible {
+    opacity: 1;
+    visibility: visible;
+}
 
-        #waiting-screen.visible {
-            opacity: 1;
-            visibility: visible;
-        }
+.highlight-box {
+    padding: 50px;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.5s ease;
+}
 
-        #waiting-time {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
+#waiting-time {
+    font-size: 7.5rem;
+    font-weight: bolder; /* Увеличено для более жирного текста */
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
 
-        #waiting-screen .logo {
-            height: 150px; /* Увеличиваем размер логотипа */
-            margin-bottom: 20px;
-        }
+#waiting-screen .logo {
+    height: 250px;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    transition: transform 0.5s ease;
+}
 
-        #contact-info {
-            font-size: 1.5rem;
-            text-align: center;
-        }
-    </style>
+#waiting-screen .highlight-box {
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.5s ease;
+}
+
+#waiting-screen .highlight-box:first-child {
+    margin-bottom: 20px;
+}
+
+#waiting-screen .highlight-box:last-child {
+    margin-top: 10px;
+}
+
+#waiting-screen * {
+    transition: opacity 0.5s ease;
+}
+</style>
+
 </head>
 <body>
-    <header>
-        <img src="/static/logo-w.png" alt="Logo" class="logo">
-        <h1>Display Scores</h1>
-    </header>
+    <header></header>
     <main>
-        <h2 id="contestant-name">Loading...</h2>
+        <h2 id="contestant-name">N/A Participant</h2>
         <table border="1">
             <thead>
                 <tr>
@@ -184,16 +217,18 @@
                 <!-- Scores will be populated here -->
             </tbody>
         </table>
+
+        <div id="final-score">TOTAL: N/A</div>
     </main>
 
-    <!-- Экран ожидания -->
     <div id="waiting-screen">
-        <div id="waiting-time"><strong>00:00:00</strong></div>
+        <div class="highlight-box">
+            <div id="waiting-time"><strong>00:00:00</strong></div>
+        </div>
         <img src="/static/logo-w.png" alt="Logo" class="logo">
-        <div id="contact-info">
-            <p><strong>Mail us: 2mmedia.il@gmail.com</strong></p>
-            <p><strong>Phone: +972 54 779 8676</strong></p>
-			<p><strong>Instagram: @2mmedia.il</strong></p>
+        <div class="highlight-box" id="contact-info">
+		<p><strong>Because a good competition starts from good managing.</strong></p>
+		<p><strong>RISTAR.CO</strong></p>
         </div>
     </div>
 </body>
