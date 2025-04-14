@@ -182,17 +182,18 @@ def get_scores(contestant_number):
 @app.route('/reset', methods=['POST'])
 def reset_data():
     try:
-        # Clear the contents of the JSON file
-        with open(data_path, 'w') as file:
-            file.write('[]')  # Assuming your JSON file is an array
+        data['scores'] = []  # Очищаем только оценки
+        save_data()
         return jsonify({'message': 'Data has been successfully reset.'})
     except Exception as e:
         return jsonify({'message': f'Error resetting data: {str(e)}'})
 
+
 def save_data():
-    """Save the updated data to the JSON file."""
-    with open(data_path, 'w') as f:
-        json.dump(data, f, indent=4)
+    with lock:
+        with open(data_path, 'w') as f:
+            json.dump(data, f, indent=4)
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0')  # Запуск с поддержкой WebSocket

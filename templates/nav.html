@@ -3,7 +3,7 @@
 <head>
     <title>RSM Nav</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='web.ico') }}" type="image/x-icon">
     <style>
         body {
             display: flex;
@@ -82,12 +82,8 @@
     </script>
 </head>
 <body>
-    <div id="loading-spinner">
-        <div class="spinner"></div>
-        <p class="loading-text">Loading...</p>
-    </div>
 
-    <h1>Navigation Panel</h1>
+    <h1>Welcome!</h1>
     <div class="nav-buttons">
         <button onclick="window.location.href='{{ url_for('select_judge') }}'">
             <img src="{{ url_for('static', filename='media/judge.png') }}" alt="Judge">

@@ -31,17 +31,185 @@
         });
     });
 </script>
+<style>
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+header {
+    background-color: #004aad;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.logo {
+    height: 10vh; /* Используйте проценты или vw/vh для адаптивности */
+    display: block;
+    margin: 0 auto 2vh; /* Используйте проценты или vw/vh для адаптивности */
+}
+
+main {
+    padding: 2vh; /* Используйте проценты или vw/vh для адаптивности */
+}
+
+h1, h2 {
+    text-align: center;
+    font-size: 3vh; /* Используйте проценты или vw/vh для адаптивности */
+}
+
+form {
+    max-width: 80vw; /* Используйте проценты или vw/vh для адаптивности */
+    margin: 0 auto;
+    padding: 2vh; /* Используйте проценты или vw/vh для адаптивности */
+}
+
+button, .button {
+    background-color: #004aad;
+    color: white;
+    border: none;
+    padding: 2vh 4vw; /* Используйте проценты или vw/vh для адаптивности */
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    font-size: 2vh; /* Используйте проценты или vw/vh для адаптивности */
+}
+
+button:hover, .button:hover {
+    background-color: #003682;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2vh 0;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 1vh; /* Используйте проценты или vw/vh для адаптивности */
+    text-align: center;
+    font-size: 2vh; /* Используйте проценты или vw/vh для адаптивности */
+}
+
+table th {
+    background-color: #004aad;
+    color: white;
+}
+
+form div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2vh; /* Используйте проценты или vw/vh для адаптивности */
+    flex-wrap: wrap;
+}
+
+form label {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1vh; /* Используйте проценты или vw/vh для адаптивности */
+    font-size: 2vh; /* Используйте проценты или vw/vh для адаптивности */
+}
+
+form input[type="range"] {
+    flex-grow: 1;
+    width: 100%;
+}
+
+form span {
+    width: 100%;
+    text-align: center;
+    margin-top: 1vh; /* Используйте проценты или vw/vh для адаптивности */
+    font-size: 2vh; /* Используйте проценты или vw/vh для адаптивности */
+}
+
+#contestant {
+    margin-bottom: 2vh; /* Используйте проценты или vw/vh для адаптивности */
+    font-size: 2vh; /* Используйте проценты или vw/vh для адаптивности */
+}
+
+/* Новые стили для select и option */
+select {
+    font-size: 2vh; /* Увеличиваем размер шрифта */
+    padding: 1vh; /* Добавляем отступы */
+    width: 100%;
+    box-sizing: border-box; /* Учитываем отступы внутри элемента */
+    margin-bottom: 20px; /* Увеличиваем отступ снизу */
+}
+
+option {
+    font-size: 2vh; /* Увеличиваем размер шрифта */
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 1vh;
+    }
+    h1, h2 {
+        font-size: 2vh; /* Используйте проценты или vw/vh для адаптивности */
+    }
+    .logo {
+        height: 7vh; /* Используйте проценты или vw/vh для адаптивности */
+    }
+    form {
+        padding: 1vh;
+        max-width: 100%;
+    }
+#loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    display: none;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid rgba(255, 255, 255, 0.3);
+    border-top: 6px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+.loading-text {
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    animation: fade 1.5s infinite alternate;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fade {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+</style>
 
 	    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-			 <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+			 <link rel="icon" href="{{ url_for('static', filename='web.ico') }}" type="image/x-icon">
 
 </head>
 <body>
 <body>
-    <div id="loading-spinner">
-        <div class="spinner"></div>
-        <p class="loading-text">Loading...</p>
-    </div>
 
     <!-- Остальной контент страницы -->
 
