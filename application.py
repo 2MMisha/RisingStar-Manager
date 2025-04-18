@@ -127,7 +127,7 @@ class MainWindow(QMainWindow):
             self.process.readyReadStandardOutput.connect(self.handle_stdout)
             self.process.readyReadStandardError.connect(self.handle_stderr)
             self.process.finished.connect(self.server_finished)
-            self.process.start("python", ["main.py"])
+            self.process.start("py", ["main.py"])
             self.server_button.setText("Stop Server")
             self.server_output.append("Server started...")
 

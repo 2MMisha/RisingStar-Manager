@@ -36,6 +36,37 @@ def handle_toggle_waiting_screen(data):
     waiting_screen_active = data['active']
     # Отправляем состояние всем клиентам
     emit('update_waiting_screen', {'active': waiting_screen_active}, broadcast=True)
+    
+@app.route('/dashboard')
+def dashboard():
+    contestants = data['contestants']
+    scores = data['scores']
+
+    # Собираем средние оценки по каждому участнику
+    averages = {}
+    for score in scores:
+        cnum = int(score['contestant'])
+        averages.setdefault(cnum, []).append(score['weighted_score'])
+
+    contestants_names = []
+    contestants_averages = []
+
+    for c in contestants:
+        cnum = int(c['number'])
+        name = c['name']
+        if cnum in averages:
+            avg = round(sum(averages[cnum]) / len(averages[cnum]), 2)
+        else:
+            avg = 0
+        contestants_names.append(name)
+        contestants_averages.append(avg)
+
+    return render_template(
+        'dashboard.html',
+        contestants_names=contestants_names,
+        contestants_averages=contestants_averages
+    )
+
 
 # Home route to select a judge
 @app.route("/")
@@ -48,11 +79,15 @@ def nav():
     return render_template("nav.html")
 
 # Route to select a category after choosing a judge
-@app.route("/select_category", methods=["GET"])
+@app.route('/select_category')
 def select_category():
-    judge = request.args.get("judge")
-    categories = list(set(c["category"] for c in data["contestants"]))
-    return render_template("select_category.html", judge=judge, categories=categories)
+    # Получаем имя судьи из URL параметра, либо берём первого из списка
+    judge_name = request.args.get('judge', data['judges'][0])
+
+    # Получаем все уникальные категории среди участников
+    categories = sorted(set(c['category'] for c in data['contestants']))
+
+    return render_template("select_category.html", judge=judge_name, categories=categories)
 
 # Judging page for a selected category
 @app.route("/judging", methods=["GET", "POST"])
@@ -145,6 +180,28 @@ def results():
         results.sort(key=lambda x: x["average_weighted_score"], reverse=True)
 
     return render_template("results.html", results_by_category=results_by_category, judges=data["judges"])
+    
+@app.route('/list')
+def list():
+    # Словарь оценок по номеру участника
+    scored_contestants = {int(score["contestant"]) for score in data["scores"]}
+
+    # Группируем участников по категориям
+    participants_by_category = {}
+    for contestant in sorted(data["contestants"], key=lambda c: (c["category"], c["number"])):
+        category = contestant["category"]
+        number = int(contestant["number"])  # Убедитесь, что номер — это целое число
+        name = contestant["name"]
+        has_scores = number in scored_contestants  # Проверка на наличие оценок
+
+        participants_by_category.setdefault(category, []).append({
+            "number": number,
+            "name": name,
+            "has_scores": has_scores
+        })
+
+    return render_template("list.html", participants_by_category=participants_by_category)
+
 
 @app.route('/control')
 def control_page():

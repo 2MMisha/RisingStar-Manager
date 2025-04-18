@@ -21,25 +21,23 @@
             });
         });
 
-        // AJAX-запросы (если используются)
-        document.addEventListener("ajaxStart", function () {
-            spinner.style.display = "flex";
-        });
+document.addEventListener("ajaxStart", function () {
+    console.log('AJAX request started');
+    spinner.style.display = "flex";
+});
 
-        document.addEventListener("ajaxStop", function () {
-            spinner.style.display = "none";
-        });
-    });
+document.addEventListener("ajaxStop", function () {
+    console.log('AJAX request completed');
+    spinner.style.display = "none";
+});
+
 </script>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 <body>
-    <div id="loading-spinner">
-        <div class="spinner"></div>
-        <p class="loading-text">Loading...</p>
-    </div>
+
 
     <!-- Остальной контент страницы -->
 

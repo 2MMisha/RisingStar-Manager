@@ -97,6 +97,12 @@
         <button onclick="window.location.href='{{ url_for('display_page') }}'">
             <img src="{{ url_for('static', filename='media/display.png') }}" alt="Display">
         </button>
+		<button onclick="window.location.href='{{ url_for('list') }}'">
+            <img src="{{ url_for('static', filename='media/list.png') }}" alt="List">
+        </button>
+		<button onclick="window.location.href='{{ url_for('dashboard') }}'">
+            <img src="{{ url_for('static', filename='media/dashboard.png') }}" alt="Dashboard">
+        </button>
     </div>
 
     <button class="reset-button" onclick="confirmReset()"></button>

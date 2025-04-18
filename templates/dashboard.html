@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <script src="/static/js/socket.io.js"></script>
+    <style>
+	
+@media print {
+        /* Скрываем ненужные элементы при печати */
+        header, button, .button, #loading-spinner {
+            display: none !important;
+        }
+
+        /* Настройки страницы */
+        @page {
+            size: auto;
+            margin: 15mm 10mm 20mm 10mm;
+        }
+
+        /* Верхний колонтитул */
+        body::before {
+            content: "Rising Star Software (C) 2025 | 2M Media";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 8pt;
+            padding: 5px 10px;
+            background-color: white;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Нижний колонтитул */
+        body::after {
+            content: "Compiled by Rising Star Software V5.8.2.2 BETA | Licensed for Michael Mokrsuhov";
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 8pt;
+            padding: 5px 10px;
+            background-color: white;
+            border-top: 1px solid #ddd;
+        }
+
+        /* Основное содержимое */
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            background-color: white;
+            color: black;
+            font-size: 10pt;
+        }
+
+        /* Адаптация таблиц для печати */
+        table {
+            width: 100%;
+            page-break-inside: auto;
+        }
+        
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+        
+        /* Улучшение читаемости */
+        table th {
+            background-color: #004aad !important;
+            color: white !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    }
+
+        .dashboard-container {
+            padding: 2vh 4vw;
+        }
+
+        .section {
+            margin-bottom: 4vh;
+        }
+
+        .section h2 {
+            font-size: 3vh;
+            margin-bottom: 1vh;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1vw;
+        }
+
+        .btn-group button {
+            padding: 1vh 2vw;
+            background-color: #004aad;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 2vh;
+        }
+
+        .btn-group button:hover {
+            background-color: #003682;
+        }
+
+        .log-box {
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            padding: 1vh;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+        }
+
+        .status-indicator {
+            font-size: 2.5vh;
+            font-weight: bold;
+            transition: color 1s ease;
+        }
+
+        .status-indicator.active {
+            color: green;
+            animation: blink 1s step-end infinite;
+        }
+
+        .status-indicator.inactive {
+            color: red;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .waiting-time {
+            font-size: 2.5vh;
+            margin-top: 1vh;
+        }
+
+        .last-update {
+            font-size: 1.5vh;
+            color: gray;
+            margin-top: 1vh;
+        }
+		
+		#judging-actions {
+    font-size: 2vh;
+    padding: 1vh;
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    font-family: monospace;
+}
+
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Competition Dashboard</h1>
+
+        <div class="section">
+            <h2>Controls</h2>
+            <div class="btn-group">
+                <button onclick="location.href='{{ url_for('control_page') }}'">Control Panel</button>
+                <button onclick="location.href='{{ url_for('judging') }}'">Go to Judging</button>
+                <button onclick="location.href='{{ url_for('results') }}'">See Results</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Current Performance</h2>
+            <div id="current-contestant-box" class="log-box" style="font-size: 2.5vh;">
+                Loading current contestant...
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Waiting Screen Status</h2>
+            <div id="waiting-status" class="status-indicator inactive">
+                Waiting screen: OFF
+            </div>
+            <div id="waiting-time" class="waiting-time">Waiting time: 00:00</div>
+            <div id="last-update" class="last-update">Last update: N/A</div>
+        </div>
+
+
+    </div>
+
+    <script>
+        // Обновление текущего участника
+        async function updateCurrentContestantBox() {
+            try {
+                const contestantResponse = await fetch('/get_current_contestant');
+                const contestantData = await contestantResponse.json();
+                const number = contestantData.contestant_number;
+
+                const scoresResponse = await fetch(`/get_scores/${number}`);
+                const scoresData = await scoresResponse.json();
+
+                const name = scoresData.contestant.name;
+                const category = scoresData.contestant.category;
+
+                const box = document.getElementById('current-contestant-box');
+                box.innerHTML = `<strong>${name}</strong><br>Category: <em>${category}</em>`;
+            } catch (error) {
+                document.getElementById('current-contestant-box').innerText = "Failed to load contestant.";
+                console.error("Error fetching current contestant:", error);
+            }
+        }
+
+        setInterval(updateCurrentContestantBox, 30000);
+        window.onload = updateCurrentContestantBox;
+
+        // Подключение к сокету
+        const socket = io();
+
+        let waitingStartTime = null; // Время начала ожидания
+        let waitingInterval = null;
+
+        socket.on('update_waiting_screen', function(data) {
+            const waitingBox = document.getElementById('waiting-status');
+            const waitingTimeBox = document.getElementById('waiting-time');
+            const lastUpdateBox = document.getElementById('last-update');
+
+            if (data.active) {
+                waitingBox.classList.remove('inactive');
+                waitingBox.classList.add('active');
+                waitingBox.innerText = "Waiting screen: ON";
+
+                // Если экран ожидания был включен, начинаем отсчёт времени
+                if (!waitingStartTime) {
+                    waitingStartTime = new Date();
+                    waitingInterval = setInterval(updateWaitingTime, 1000);
+                }
+            } else {
+                waitingBox.classList.remove('active');
+                waitingBox.classList.add('inactive');
+                waitingBox.innerText = "Waiting screen: OFF";
+
+                // Останавливаем таймер
+                clearInterval(waitingInterval);
+                waitingStartTime = null;
+                waitingTimeBox.innerText = "Waiting time: 00:00";
+            }
+
+            // Обновление времени последнего обновления статуса
+            lastUpdateBox.innerText = "Last update: " + new Date().toLocaleTimeString();
+        });
+
+        // Функция для обновления времени ожидания
+        function updateWaitingTime() {
+            if (waitingStartTime) {
+                const elapsed = new Date() - waitingStartTime;
+                const hours = Math.floor(elapsed / (1000 * 60 * 60));
+                const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+                document.getElementById('waiting-time').innerText = `Waiting time: ${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+            }
+        }
+
+        // Функция для форматирования времени (с добавлением нуля, если нужно)
+        function formatTime(time) {
+            return time < 10 ? '0' + time : time;
+        }
+
+// Обработка новых действий судей
+socket.on('new_judging_action', function(data) {
+    const judgingActionsBox = document.getElementById('judging-actions');
+    const judgeName = data.judge_name;
+    const contestantName = data.contestant_name;
+    const score = data.score;
+
+    // Добавление нового действия в верхнюю часть списка
+    const newAction = `<strong>${judgeName}</strong> scored <strong>${contestantName}</strong>: ${score}<br>`;
+    judgingActionsBox.innerHTML = newAction + judgingActionsBox.innerHTML;
+});
+
+    </script>
+</body>
+</html>

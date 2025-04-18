@@ -168,3 +168,72 @@ option {
     from { opacity: 0.5; }
     to { opacity: 1; }
 }
+
+@media print {
+        /* Скрываем ненужные элементы при печати */
+        header, button, .button, #loading-spinner {
+            display: none !important;
+        }
+
+        /* Настройки страницы */
+        @page {
+            size: auto;
+            margin: 15mm 10mm 20mm 10mm;
+        }
+
+        /* Верхний колонтитул */
+        body::before {
+            content: "Rising Star Software (C) 2025 | 2M Media";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 8pt;
+            padding: 5px 10px;
+            background-color: white;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Нижний колонтитул */
+        body::after {
+            content: "Compiled by Rising Star Software V5.8.2.2 BETA | Licensed for Michael Mokrsuhov";
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 8pt;
+            padding: 5px 10px;
+            background-color: white;
+            border-top: 1px solid #ddd;
+        }
+
+        /* Основное содержимое */
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            background-color: white;
+            color: black;
+            font-size: 10pt;
+        }
+
+        /* Адаптация таблиц для печати */
+        table {
+            width: 100%;
+            page-break-inside: auto;
+        }
+        
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+        
+        /* Улучшение читаемости */
+        table th {
+            background-color: #004aad !important;
+            color: white !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    }
