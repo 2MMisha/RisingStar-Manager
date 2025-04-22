@@ -230,11 +230,18 @@ def set_current_contestant():
 
 @app.route('/get_scores/<int:contestant_number>')
 def get_scores(contestant_number):
-    # Filter scores for the selected contestant
+    # Найти участника по номеру
+    contestant = next((c for c in data['contestants'] if c['number'] == str(contestant_number)), None)
+    
+    # Если участник найден, то получить его оценки, иначе вернуть пустой список
     contestant_scores = [score for score in data['scores'] if int(score['contestant']) == contestant_number]
-    # Find the contestant's details
-    contestant = next((c for c in data['contestants'] if c['number'] == contestant_number), None)
-    return jsonify({"scores": contestant_scores, "contestant": contestant, "judges": data['judges']})
+    
+    return jsonify({
+        "scores": contestant_scores,
+        "contestant": contestant,
+        "judges": data['judges']
+    })
+
 
 @app.route('/reset', methods=['POST'])
 def reset_data():

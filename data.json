@@ -1,9 +1,16 @@
 {
     "judges": [
-        "Nati G.",
-        "Valentina S."
+        "J1",
+        "J2",
+        "J3"
     ],
-    "contestants": [],
+    "contestants": [
+        {
+            "number": "1",
+            "name": "Michael Mokrushov - Ya budu vsegda s toboi",
+            "category": "Performing"
+        }
+    ],
     "criteria": [
         {
             "name": "Voice quality",
@@ -14,13 +21,13 @@
         {
             "name": "Performance",
             "weight": 30,
-            "min_score": 1,
+            "min_score": 0,
             "max_score": 12
         },
         {
             "name": "Overall appeal",
             "weight": 20,
-            "min_score": 1,
+            "min_score": 0,
             "max_score": 12
         }
     ],

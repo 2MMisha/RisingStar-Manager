@@ -4,54 +4,70 @@
     <title>Display Scores</title>
     <script src="/static/js/socket.io.js"></script>
     <script>
-        const socket = io();
+const socket = io();
 
-        async function fetchScores() {
-            const contestantResponse = await fetch('/get_current_contestant');
-            const contestantData = await contestantResponse.json();
-            const contestantNumber = contestantData.contestant_number;
+async function fetchScores() {
+    const contestantResponse = await fetch('/get_current_contestant');
+    const contestantData = await contestantResponse.json();
+    const contestantNumber = contestantData.contestant_number;
 
-            const scoresResponse = await fetch(`/get_scores/${contestantNumber}`);
-            const scoresData = await scoresResponse.json();
+    const scoresResponse = await fetch(`/get_scores/${contestantNumber}`);
+    const scoresData = await scoresResponse.json();
+    console.log(scoresData); // Проверяем, что данные приходят корректно
 
-            document.getElementById('contestant-name').innerText = `${scoresData.contestant.name} (${scoresData.contestant.category})`;
-            const tableBody = document.getElementById('scores-table-body');
-            tableBody.innerHTML = '';
-            let totalScore = 0;
-            let scoreCount = 0;
+    // Проверка данных участника
+    if (scoresData.contestant) {
+        document.getElementById('contestant-name').innerText = `${scoresData.contestant.name} (${scoresData.contestant.category})`;
+    } else {
+        document.getElementById('contestant-name').innerText = "No contestant data available";
+    }
 
-            scoresData.judges.forEach(judge => {
-                const score = scoresData.scores.find(s => s.judge === judge)?.weighted_score || 0;
-                totalScore += parseFloat(score);
-                scoreCount += score ? 1 : 0;
-                const row = `<tr><td>${judge}</td><td>${score}</td></tr>`;
-                tableBody.insertAdjacentHTML('beforeend', row);
-            });
+    const tableBody = document.getElementById('scores-table-body');
+    tableBody.innerHTML = ''; // Очистим таблицу перед добавлением новых данных
 
-            const averageScore = scoreCount ? (totalScore / scoreCount).toFixed(2) : 'No score';
-            document.getElementById('final-score').innerText = `TOTAL: ${averageScore}`;
-        }
+    let totalScore = 0;
+    let scoreCount = 0;
 
-        setInterval(fetchScores, 5000);
-        window.onload = fetchScores;
-
-        function updateTime() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString([], { hour12: false }); // 24-hour format
-            document.getElementById('waiting-time').innerText = timeString;
-        }
-
-        setInterval(updateTime, 1000);
-        window.onload = updateTime;
-
-        socket.on('update_waiting_screen', function(data) {
-            const waitingScreen = document.getElementById('waiting-screen');
-            if (data.active) {
-                waitingScreen.classList.add('visible');
-            } else {
-                waitingScreen.classList.remove('visible');
-            }
+    // Проверяем, если оценки присутствуют
+    if (scoresData.scores.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="2">No scores available yet.</td></tr>`;
+    } else {
+        scoresData.judges.forEach(judge => {
+            const score = scoresData.scores.find(s => s.judge === judge)?.weighted_score || 0;
+            totalScore += parseFloat(score);
+            scoreCount += score ? 1 : 0;
+            const row = `<tr><td>${judge}</td><td>${score}</td></tr>`;
+            tableBody.insertAdjacentHTML('beforeend', row);
         });
+
+        const averageScore = scoreCount ? (totalScore / scoreCount).toFixed(2) : 'No score';
+        document.getElementById('final-score').innerText = `TOTAL: ${averageScore}`;
+    }
+}
+
+function updateTime() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString([], { hour12: false });
+    document.getElementById('waiting-time').innerText = timeString;
+}
+
+window.onload = () => {
+    fetchScores();
+    updateTime();
+};
+
+setInterval(fetchScores, 5000);
+setInterval(updateTime, 1000);
+
+socket.on('update_waiting_screen', function(data) {
+    const waitingScreen = document.getElementById('waiting-screen');
+    if (data.active) {
+        waitingScreen.classList.add('visible');
+    } else {
+        waitingScreen.classList.remove('visible');
+    }
+});
+
     </script>
 
 <style>
@@ -75,7 +91,7 @@ header {
 }
 
 h1, h2 {
-    font-size: 3.75rem;
+    font-size: 3rem; /* Уменьшен размер шрифта */
     margin: 0;
 }
 
@@ -85,19 +101,20 @@ main {
     justify-content: flex-start;
     align-items: center;
     height: 100%;
-    padding: 20px;
+    padding: 15px; /* Уменьшен отступ */
     overflow: hidden;
 }
 
 #contestant-name {
-    margin-top: 5px;
-    font-size: 5rem;
+    margin-top: 5px; /* Можно изменить на нужный вам отступ */
+    font-size: 4rem; /* Уменьшен размер шрифта */
+    text-align: center; /* Центрирует текст */
 }
 
 table {
     width: 90%;
     height: 50%;
-    max-width: 1200px;
+    max-width: 1000px; /* Уменьшен максимальный размер */
     margin-top: 5px;
     border-collapse: collapse;
     margin-bottom: 5px;
@@ -107,8 +124,8 @@ table {
 th, td {
     text-align: center;
     font-weight: bold;
-    font-size: 3.75rem;
-    padding: 15px;
+    font-size: 3rem; /* Уменьшен размер шрифта */
+    padding: 12px; /* Уменьшен отступ */
 }
 
 th {
@@ -121,16 +138,16 @@ td {
 }
 
 #final-score {
-    font-size: 5rem;
+    font-size: 4rem; /* Уменьшен размер шрифта */
     font-weight: bold;
     text-align: center;
     margin-top: 5px;
-    padding: 20px;
+    padding: 15px; /* Уменьшен отступ */
     background-color: rgba(0, 123, 255, 0.7);
     color: white;
     border-radius: 10px;
     width: 80%;
-    max-width: 800px;
+    max-width: 700px; /* Уменьшен максимальный размер */
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -150,7 +167,8 @@ td {
     opacity: 0;
     visibility: hidden;
     transition: opacity 1s ease, visibility 1s ease;
-    font-size: 3.125rem;
+    font-size: 2.5rem; /* Уменьшен размер шрифта */
+    overflow: hidden; /* Чтобы содержимое не выходило за пределы */
 }
 
 #waiting-screen.visible {
@@ -158,22 +176,10 @@ td {
     visibility: visible;
 }
 
-.highlight-box {
-    padding: 50px;
-    border-radius: 10px;
-    text-align: center;
-    transition: transform 0.5s ease;
-}
-
-#waiting-time {
-    font-size: 7.5rem;
-    font-weight: bolder; /* Увеличено для более жирного текста */
-    margin-bottom: 1rem;
-    color: #ffffff;
-}
-
 #waiting-screen .logo {
-    height: 250px;
+    max-width: 100%; /* Ограничивает ширину до 100% */
+    max-height: 50%; /* Ограничивает высоту до 50% экрана */
+    object-fit: contain; /* Сохраняет пропорции логотипа */
     margin-top: 20px;
     padding: 10px;
     border-radius: 10px;
@@ -181,8 +187,24 @@ td {
     transition: transform 0.5s ease;
 }
 
+
+.highlight-box {
+    padding: 40px; /* Уменьшен отступ */
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.5s ease;
+}
+
+#waiting-time {
+    font-size: 6rem; /* Уменьшен размер шрифта */
+    font-weight: bolder; /* Увеличено для более жирного текста */
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+
 #waiting-screen .highlight-box {
-    padding: 25px;
+    padding: 20px; /* Уменьшен отступ */
     border-radius: 10px;
     text-align: center;
     transition: transform 0.5s ease;
@@ -199,6 +221,7 @@ td {
 #waiting-screen * {
     transition: opacity 0.5s ease;
 }
+
 </style>
 
 </head>
