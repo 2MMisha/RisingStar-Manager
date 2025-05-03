@@ -19,50 +19,33 @@
     }
 
     .criterion {
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
-.criterion-input {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-
-.criterion-input button {
-  width: 50px;
-  height: 50px;
-  font-size: 2rem;
-  background-color: #004aad;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-    .criterion-input button:disabled {
-      background-color: #cccccc;
-      cursor: not-allowed;
+    .number-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 5px;
     }
 
-    .criterion-input button:hover {
-      background-color: #003080;
-    }
-
-.criterion-input input {
-  width: 80px;
-  height: 50px;
-  font-size: 2rem;
-  text-align: center;
+.number-buttons button {
+  flex: 1 0 18%;
+  padding: 10px;
+  font-size: 1.2rem;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 5px;
+  background: #f0f0f0;
+  color: black;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
+
+.number-buttons button.selected {
+  background: #004aad;
+  color: white;
+  font-weight: bold;
+}
+
 
     .submit-button {
       width: 100%;
@@ -138,20 +121,16 @@
       {% for criterion in criteria %}
       <div class="criterion">
         <label>{{ criterion.name }} ({{ criterion.weight }}%)</label>
-        <div class="criterion-input" 
-             data-name="{{ criterion.name }}"
-             data-min="{{ criterion.min_score }}"
-             data-max="{{ criterion.max_score }}"
-             data-step="{{ 0.5 if allow_decimal else 1 }}">
-          <button type="button" id="{{ criterion.name }}_minus" onclick="changeValue('{{ criterion.name }}', -1)">−</button>
-          <input type="number" id="{{ criterion.name }}_input" name="{{ criterion.name }}" 
-                 value="{{ criterion.min_score }}" 
-                 min="{{ criterion.min_score }}" 
-                 max="{{ criterion.max_score }}" 
-                 step="{{ 0.5 if allow_decimal else 1 }}" 
-                 required onchange="validateInput('{{ criterion.name }}')">
-          <button type="button" id="{{ criterion.name }}_plus" onclick="changeValue('{{ criterion.name }}', 1)">+</button>
+        <div class="number-buttons" data-name="{{ criterion.name }}">
+{% set step = 0.5 if allow_decimal else 1 %}
+{% set count = ((criterion.max_score - criterion.min_score) / step) | int + 1 %}
+{% for i in range(count) %}
+  {% set score = (criterion.min_score + (i * step)) | round(1) %}
+  <button type="button" onclick="selectScore(this, '{{ criterion.name }}')" data-value="{{ score }}">{{ score }}</button>
+{% endfor %}
+
         </div>
+        <input type="hidden" name="{{ criterion.name }}" id="{{ criterion.name }}_input" required>
       </div>
       {% endfor %}
 
@@ -171,47 +150,16 @@
   <div class="change-button" onclick="window.location.href='{{ url_for('select_judge') }}'">CHOOSE ANOTHER CATEGORY</div>
 
   <script>
-    function changeValue(name, delta) {
-      const container = document.querySelector(`[data-name="${name}"]`);
-      const min = parseFloat(container.dataset.min);
-      const max = parseFloat(container.dataset.max);
-      const step = parseFloat(container.dataset.step);
-
-      const input = document.getElementById(name + "_input");
-      let current = parseFloat(input.value);
-      if (isNaN(current)) current = min;
-
-      let newValue = current + delta * step;
-      newValue = Math.round(newValue * 10) / 10;
-
-      if (newValue >= min && newValue <= max) {
-        input.value = newValue;
-      }
-
-      // Отключаем кнопки при достижении минимума/максимума
-      document.getElementById(name + "_minus").disabled = newValue <= min;
-      document.getElementById(name + "_plus").disabled = newValue >= max;
-
-      checkAllSelected();
-    }
-
-    function validateInput(name) {
-      const input = document.getElementById(name + "_input");
-      const min = parseFloat(input.min);
-      const max = parseFloat(input.max);
-
-      // Ограничиваем ввод цифры больше максимума или меньше минимума
-      if (parseFloat(input.value) < min) {
-        input.value = min;
-      } else if (parseFloat(input.value) > max) {
-        input.value = max;
-      }
-
+    function selectScore(button, criterionName) {
+      const buttons = button.parentElement.querySelectorAll('button');
+      buttons.forEach(btn => btn.classList.remove('selected'));
+      button.classList.add('selected');
+      document.getElementById(criterionName + "_input").value = button.dataset.value;
       checkAllSelected();
     }
 
     function checkAllSelected() {
-      const requiredInputs = document.querySelectorAll('input[type="number"][required]');
+      const requiredInputs = document.querySelectorAll('input[type="hidden"][required]');
       const submitBtn = document.getElementById('submitBtn');
       let allFilled = true;
       requiredInputs.forEach(input => {

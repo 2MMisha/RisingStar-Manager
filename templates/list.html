@@ -3,18 +3,9 @@
 <head>
     <title>Participants</title>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const spinner = document.getElementById("loading-spinner");
-            spinner.style.display = "flex";
-            window.addEventListener("load", function () {
-                spinner.style.display = "none";
-            });
-            document.querySelectorAll("a").forEach(link => {
-                link.addEventListener("click", function () {
-                    spinner.style.display = "flex";
-                });
-            });
-        });
+  setInterval(() => {
+    location.reload();
+  }, 60000); // 60000 мс = 60 секунд
     </script>
     <style>
         body {

@@ -104,6 +104,9 @@ def judging():
         score["contestant"] for score in data["scores"] if score["judge"] == judge
     }
 
+    # Сортировка участников по номеру
+    contestants = sorted(contestants, key=lambda x: x["number"])
+
     if request.method == "POST":
         contestant = request.form.get("contestant")
         if not contestant:
@@ -205,8 +208,11 @@ def list():
 
 @app.route('/control')
 def control_page():
-    # Render the control page with a list of contestants
-    return render_template('control.html', contestants=data['contestants'])
+    # Сортировка участников по числовому значению поля "number"
+    sorted_contestants = sorted(data['contestants'], key=lambda c: int(c['number']))
+    
+    return render_template('control.html', contestants=sorted_contestants)
+
 
 @app.route('/display')
 def display_page():

@@ -1,13 +1,160 @@
 {
     "judges": [
-        "J1",
-        "J2",
-        "J3"
+        "Zhenya 1",
+        "Zhenya 2",
+        "Roman 1",
+        "Roman 2",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
     ],
     "contestants": [
         {
-            "number": "1",
+            "number": "25",
             "name": "Michael Mokrushov - Ya budu vsegda s toboi",
+            "category": "Performing"
+        },
+        {
+            "number": "24",
+            "name": "Emily Gordin - Tomorrow",
+            "category": "Performing"
+        },
+        {
+            "number": "2",
+            "name": "Diana Poliakov - Creep",
+            "category": "Performing"
+        },
+        {
+            "number": "3",
+            "name": "Boris Erport - My way",
+            "category": "Performing"
+        },
+        {
+            "number": "26",
+            "name": "Nehama Monastirsky - Etot mir",
+            "category": "Performing"
+        },
+        {
+            "number": "10",
+            "name": "Svetlana Kolodyajny - Amado mio",
+            "category": "Performing"
+        },
+        {
+            "number": "5",
+            "name": "Victoria Bogdanov - Nepogoda",
+            "category": "Performing"
+        },
+        {
+            "number": "8",
+            "name": "Oxana Nahanzon - Moya semya",
+            "category": "Performing"
+        },
+        {
+            "number": "7",
+            "name": "Izabella Shklyar - Hen efshar",
+            "category": "Performing"
+        },
+        {
+            "number": "21",
+            "name": "Moriya klevensky - Yerushalaim",
+            "category": "Performing"
+        },
+        {
+            "number": "22",
+            "name": "Olga Mairin - That's the way it is",
+            "category": "Performing"
+        },
+        {
+            "number": "16",
+            "name": "Olga Medvinsky - Hallelujah la olam",
+            "category": "Performing"
+        },
+        {
+            "number": "19",
+            "name": "Emma Yakov - Kupite Mne Schenka",
+            "category": "Performing"
+        },
+        {
+            "number": "20",
+            "name": "Ann Hanna Dadon - Tri zhelania",
+            "category": "Performing"
+        },
+        {
+            "number": "17",
+            "name": "Dana Shvedsky - Veryu ne veryu",
+            "category": "Performing"
+        },
+        {
+            "number": "18",
+            "name": "Naomi Anak - Shma Israel",
+            "category": "Performing"
+        },
+        {
+            "number": "23",
+            "name": "Victoria Baitman - Hallelujah",
+            "category": "Performing"
+        },
+        {
+            "number": "12",
+            "name": "Meitar Ben Harush - Hallelujah",
+            "category": "Performing"
+        },
+        {
+            "number": "11",
+            "name": "Lian Akerman - Tamid ohev oti",
+            "category": "Performing"
+        },
+        {
+            "number": "27",
+            "name": "Noa Bronfman - Lehiyot kan yeled",
+            "category": "Performing"
+        },
+        {
+            "number": "28",
+            "name": "Vladimir Roziavsky - Liricheskaya",
+            "category": "Performing"
+        },
+        {
+            "number": "13",
+            "name": "Shai Baitman - Veter",
+            "category": "Performing"
+        },
+        {
+            "number": "15",
+            "name": "Alexa Vasiliev - Hallelujah",
+            "category": "Performing"
+        },
+        {
+            "number": "9",
+            "name": "Shai Lee Avraham - Code",
+            "category": "Performing"
+        },
+        {
+            "number": "6",
+            "name": "Maria Inlun - Believer",
+            "category": "Performing"
+        },
+        {
+            "number": "14",
+            "name": "Alisa Riff - Tu vas me detruire",
+            "category": "Performing"
+        },
+        {
+            "number": "29",
+            "name": "Anastasia Haver - Obiymi\u00a0mene",
+            "category": "Performing"
+        },
+        {
+            "number": "1",
+            "name": "Elinor Gulikashvulli - Guf ve neshama",
+            "category": "Performing"
+        },
+        {
+            "number": "4",
+            "name": "Maria Shman - Ze mathil be tsaad",
             "category": "Performing"
         }
     ],
@@ -31,5 +178,811 @@
             "max_score": 12
         }
     ],
-    "scores": []
+    "scores": [
+        {
+            "judge": "J1",
+            "contestant": "4",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "J1",
+            "contestant": "13",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "Zhenya 2",
+            "contestant": "15",
+            "weighted_score": 10.5
+        },
+        {
+            "judge": "5",
+            "contestant": "15",
+            "weighted_score": 8.15
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "15",
+            "weighted_score": 8.9
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "15",
+            "weighted_score": 9.85
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "15",
+            "weighted_score": 10.65
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "19",
+            "weighted_score": 7.0
+        },
+        {
+            "judge": "Zhenya 2",
+            "contestant": "19",
+            "weighted_score": 7.05
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "19",
+            "weighted_score": 7.55
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "19",
+            "weighted_score": 7.55
+        },
+        {
+            "judge": "5",
+            "contestant": "19",
+            "weighted_score": 6.85
+        },
+        {
+            "judge": "5",
+            "contestant": "11",
+            "weighted_score": 6.0
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "11",
+            "weighted_score": 6.0
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "11",
+            "weighted_score": 6.1
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "11",
+            "weighted_score": 7.5
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "11",
+            "weighted_score": 7.4
+        },
+        {
+            "judge": "5",
+            "contestant": "24",
+            "weighted_score": 5.8
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "24",
+            "weighted_score": 5.8
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "24",
+            "weighted_score": 5.8
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "24",
+            "weighted_score": 8.1
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "25",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "24",
+            "weighted_score": 8.85
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "7",
+            "weighted_score": 6.0
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "7",
+            "weighted_score": 6.5
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "25",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "5",
+            "contestant": "25",
+            "weighted_score": 6.45
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "7",
+            "weighted_score": 8.7
+        },
+        {
+            "judge": "5",
+            "contestant": "7",
+            "weighted_score": 6.35
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "7",
+            "weighted_score": 8.75
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "2",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "5",
+            "contestant": "1",
+            "weighted_score": 7.0
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "1",
+            "weighted_score": 6.65
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "1",
+            "weighted_score": 6.45
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "1",
+            "weighted_score": 8.75
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "6",
+            "weighted_score": 7.6
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "6",
+            "weighted_score": 7.5
+        },
+        {
+            "judge": "5",
+            "contestant": "6",
+            "weighted_score": 7.5
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "6",
+            "weighted_score": 7.6
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "14",
+            "weighted_score": 9.05
+        },
+        {
+            "judge": "5",
+            "contestant": "14",
+            "weighted_score": 8.15
+        },
+        {
+            "judge": "6",
+            "contestant": "14",
+            "weighted_score": 10.25
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "14",
+            "weighted_score": 7.5
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "14",
+            "weighted_score": 8.4
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "14",
+            "weighted_score": 7.2
+        },
+        {
+            "judge": "5",
+            "contestant": "2",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "21",
+            "weighted_score": 8.75
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "21",
+            "weighted_score": 8.6
+        },
+        {
+            "judge": "5",
+            "contestant": "21",
+            "weighted_score": 10.05
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "3",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "21",
+            "weighted_score": 9.8
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "21",
+            "weighted_score": 9.85
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "12",
+            "weighted_score": 6.6
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "12",
+            "weighted_score": 6.45
+        },
+        {
+            "judge": "5",
+            "contestant": "12",
+            "weighted_score": 9.05
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "12",
+            "weighted_score": 9.15
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "12",
+            "weighted_score": 9.95
+        },
+        {
+            "judge": "6",
+            "contestant": "18",
+            "weighted_score": 10.3
+        },
+        {
+            "judge": "5",
+            "contestant": "18",
+            "weighted_score": 11.15
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "18",
+            "weighted_score": 11.35
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "18",
+            "weighted_score": 10.8
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "18",
+            "weighted_score": 10.1
+        },
+        {
+            "judge": "Zhenya 2",
+            "contestant": "18",
+            "weighted_score": 10.15
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "29",
+            "weighted_score": 10.65
+        },
+        {
+            "judge": "5",
+            "contestant": "29",
+            "weighted_score": 10.65
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "29",
+            "weighted_score": 11.05
+        },
+        {
+            "judge": "6",
+            "contestant": "29",
+            "weighted_score": 8.2
+        },
+        {
+            "judge": "Zhenya 2",
+            "contestant": "25",
+            "weighted_score": 9.85
+        },
+        {
+            "judge": "6",
+            "contestant": "25",
+            "weighted_score": 12.0
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "25",
+            "weighted_score": 12.0
+        },
+        {
+            "judge": "Zhenya 2",
+            "contestant": "2",
+            "weighted_score": 7.9
+        },
+        {
+            "judge": "6",
+            "contestant": "2",
+            "weighted_score": 7.75
+        },
+        {
+            "judge": "7",
+            "contestant": "3",
+            "weighted_score": 7.95
+        },
+        {
+            "judge": "6",
+            "contestant": "24",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "6",
+            "contestant": "21",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "6",
+            "contestant": "19",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "2",
+            "weighted_score": 10.55
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "2",
+            "weighted_score": 11.7
+        },
+        {
+            "judge": "5",
+            "contestant": "5",
+            "weighted_score": 5.8
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "5",
+            "weighted_score": 5.65
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "5",
+            "weighted_score": 4.4
+        },
+        {
+            "judge": "5",
+            "contestant": "5",
+            "weighted_score": 3.9
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "5",
+            "weighted_score": 4.35
+        },
+        {
+            "judge": "6",
+            "contestant": "5",
+            "weighted_score": 5.2
+        },
+        {
+            "judge": "5",
+            "contestant": "10",
+            "weighted_score": 3.25
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "10",
+            "weighted_score": 3.6
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "10",
+            "weighted_score": 3.85
+        },
+        {
+            "judge": "6",
+            "contestant": "10",
+            "weighted_score": 8.2
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "10",
+            "weighted_score": 8.6
+        },
+        {
+            "judge": "5",
+            "contestant": "10",
+            "weighted_score": 8.65
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "22",
+            "weighted_score": 7.1
+        },
+        {
+            "judge": "5",
+            "contestant": "22",
+            "weighted_score": 7.1
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "22",
+            "weighted_score": 6.8
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "22",
+            "weighted_score": 9.6
+        },
+        {
+            "judge": "6",
+            "contestant": "22",
+            "weighted_score": 9.15
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "13",
+            "weighted_score": 7.5
+        },
+        {
+            "judge": "6",
+            "contestant": "13",
+            "weighted_score": 3.5
+        },
+        {
+            "judge": "5",
+            "contestant": "13",
+            "weighted_score": 8.85
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "13",
+            "weighted_score": 6.35
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "13",
+            "weighted_score": 7.55
+        },
+        {
+            "judge": "5",
+            "contestant": "13",
+            "weighted_score": 7.05
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "26",
+            "weighted_score": 7.15
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "26",
+            "weighted_score": 6.75
+        },
+        {
+            "judge": "5",
+            "contestant": "26",
+            "weighted_score": 6.4
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "26",
+            "weighted_score": 1.45
+        },
+        {
+            "judge": "6",
+            "contestant": "26",
+            "weighted_score": 1.6
+        },
+        {
+            "judge": "5",
+            "contestant": "26",
+            "weighted_score": 7.0
+        },
+        {
+            "judge": "7",
+            "contestant": "26",
+            "weighted_score": 3.25
+        },
+        {
+            "judge": "6",
+            "contestant": "8",
+            "weighted_score": 8.25
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "8",
+            "weighted_score": 7.05
+        },
+        {
+            "judge": "7",
+            "contestant": "8",
+            "weighted_score": 10.0
+        },
+        {
+            "judge": "5",
+            "contestant": "8",
+            "weighted_score": 9.35
+        },
+        {
+            "judge": "5",
+            "contestant": "8",
+            "weighted_score": 6.75
+        },
+        {
+            "judge": "7",
+            "contestant": "25",
+            "weighted_score": 12.0
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "8",
+            "weighted_score": 7.9
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "8",
+            "weighted_score": 7.35
+        },
+        {
+            "judge": "8",
+            "contestant": "25",
+            "weighted_score": 12.0
+        },
+        {
+            "judge": "10",
+            "contestant": "25",
+            "weighted_score": 12.0
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "23",
+            "weighted_score": 9.6
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "23",
+            "weighted_score": 9.2
+        },
+        {
+            "judge": "6",
+            "contestant": "23",
+            "weighted_score": 5.95
+        },
+        {
+            "judge": "5",
+            "contestant": "23",
+            "weighted_score": 7.95
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "16",
+            "weighted_score": 11.75
+        },
+        {
+            "judge": "5",
+            "contestant": "23",
+            "weighted_score": 7.85
+        },
+        {
+            "judge": "5",
+            "contestant": "3",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "5",
+            "contestant": "28",
+            "weighted_score": 6.3
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "28",
+            "weighted_score": 7.0
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "28",
+            "weighted_score": 7.0
+        },
+        {
+            "judge": "6",
+            "contestant": "28",
+            "weighted_score": 7.35
+        },
+        {
+            "judge": "5",
+            "contestant": "28",
+            "weighted_score": 8.25
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "28",
+            "weighted_score": 7.45
+        },
+        {
+            "judge": "10",
+            "contestant": "9",
+            "weighted_score": 12.0
+        },
+        {
+            "judge": "10",
+            "contestant": "17",
+            "weighted_score": 12.0
+        },
+        {
+            "judge": "5",
+            "contestant": "4",
+            "weighted_score": 6.65
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "4",
+            "weighted_score": 9.0
+        },
+        {
+            "judge": "5",
+            "contestant": "4",
+            "weighted_score": 10.25
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "4",
+            "weighted_score": 9.7
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "4",
+            "weighted_score": 7.25
+        },
+        {
+            "judge": "6",
+            "contestant": "4",
+            "weighted_score": 7.1
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "17",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "6",
+            "contestant": "3",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "6",
+            "contestant": "7",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "6",
+            "contestant": "16",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "6",
+            "contestant": "1",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "6",
+            "contestant": "17",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "6",
+            "contestant": "12",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "6",
+            "contestant": "11",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "6",
+            "contestant": "15",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "6",
+            "contestant": "6",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "5",
+            "contestant": "20",
+            "weighted_score": 6.25
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "20",
+            "weighted_score": 5.35
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "20",
+            "weighted_score": 5.05
+        },
+        {
+            "judge": "5",
+            "contestant": "20",
+            "weighted_score": 8.15
+        },
+        {
+            "judge": "5",
+            "contestant": "16",
+            "weighted_score": 5.25
+        },
+        {
+            "judge": "Roman 1",
+            "contestant": "16",
+            "weighted_score": 5.15
+        },
+        {
+            "judge": "5",
+            "contestant": "16",
+            "weighted_score": 7.25
+        },
+        {
+            "judge": "Roman 2",
+            "contestant": "16",
+            "weighted_score": 7.7
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "27",
+            "weighted_score": 0.5
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "20",
+            "weighted_score": 10.7
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "23",
+            "weighted_score": 2.8
+        },
+        {
+            "judge": "Zhenya 1",
+            "contestant": "9",
+            "weighted_score": 0.5
+        }
+    ]
 }
