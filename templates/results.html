@@ -219,38 +219,39 @@ option {
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
         <h1>Results</h1>
 
-    {% for category, contestants in results_by_category.items() %}
-    <h2>Category: {{ category }}</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Score</th>
-                {% for judge in judges %}
-                <th>{{ judge }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for contestant in contestants %}
-            <tr>
-                <td>{{ contestant.number }}</td>
-                <td>{{ contestant.name }}</td>
-                <td>{{ contestant.average_weighted_score }}</td>
-                {% for judge in judges %}
-                <td>
-                    {% for score in contestant.scores %}
-                        {% if score.judge == judge %}
-                            {{ score.weighted_score }}
-                        {% endif %}
-                    {% endfor %}
-                </td>
-                {% endfor %}
-            </tr>
+{% for category, contestants in results_by_category.items() %}
+<h2>Category: {{ category }}</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Place</th>  <!-- Место -->
+            <th>Name</th>
+            <th>Score</th>
+            {% for judge in judges %}
+            <th>{{ judge }}</th>
             {% endfor %}
-        </tbody>
-    </table>
-    {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for contestant in contestants %}
+        <tr>
+            <td>{{ contestant.place }}</td>  <!-- Место -->
+            <td>{{ contestant.number }}. {{ contestant.name }}</td>  <!-- Номер и имя -->
+            <td>{{ contestant.average_weighted_score }}</td>
+            {% for judge in judges %}
+            <td>
+                {% for score in contestant.scores %}
+                    {% if score.judge == judge %}
+                        {{ score.weighted_score }}
+                    {% endif %}
+                {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+
 </body>
 </html>

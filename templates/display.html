@@ -13,9 +13,9 @@ async function fetchScores() {
 
     const scoresResponse = await fetch(`/get_scores/${contestantNumber}`);
     const scoresData = await scoresResponse.json();
-    console.log(scoresData); // Проверяем, что данные приходят корректно
+    console.log(scoresData);
 
-    // Проверка данных участника
+    // Обновление информации об участнике
     if (scoresData.contestant) {
         document.getElementById('contestant-name').innerText = `${scoresData.contestant.name} (${scoresData.contestant.category})`;
     } else {
@@ -23,20 +23,26 @@ async function fetchScores() {
     }
 
     const tableBody = document.getElementById('scores-table-body');
-    tableBody.innerHTML = ''; // Очистим таблицу перед добавлением новых данных
+    tableBody.innerHTML = '';
 
     let totalScore = 0;
     let scoreCount = 0;
 
-    // Проверяем, если оценки присутствуют
-    if (scoresData.scores.length === 0) {
+    const relevantScores = scoresData.scores.filter(
+        s => String(s.contestant) === String(contestantNumber)
+    );
+
+    if (relevantScores.length === 0) {
         tableBody.innerHTML = `<tr><td colspan="2">No scores available yet.</td></tr>`;
+        document.getElementById('final-score').innerText = `TOTAL: No score`;
     } else {
         scoresData.judges.forEach(judge => {
-            const score = scoresData.scores.find(s => s.judge === judge)?.weighted_score || 0;
+            const scoreEntry = relevantScores.find(s => s.judge === judge);
+            const score = scoreEntry ? scoreEntry.weighted_score : 0;
             totalScore += parseFloat(score);
-            scoreCount += score ? 1 : 0;
-            const row = `<tr><td>${judge}</td><td>${score}</td></tr>`;
+            scoreCount += scoreEntry ? 1 : 0;
+
+            const row = `<tr><td>${judge}</td><td>${scoreEntry ? score : '0'}</td></tr>`;
             tableBody.insertAdjacentHTML('beforeend', row);
         });
 
@@ -44,6 +50,7 @@ async function fetchScores() {
         document.getElementById('final-score').innerText = `TOTAL: ${averageScore}`;
     }
 }
+
 
 function updateTime() {
     const now = new Date();

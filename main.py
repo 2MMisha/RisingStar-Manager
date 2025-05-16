@@ -151,21 +151,20 @@ def judging():
 # Results page
 @app.route("/results")
 def results():
-    contestants = {int(c["number"]): c for c in data["contestants"]}  # Преобразование ключей в int
+    contestants = {int(c["number"]): c for c in data["contestants"]}
     scores_by_contestant = {}
 
     for score_entry in data["scores"]:
-        contestant_number = int(score_entry["contestant"])  # Убедимся, что ключ целочисленный
+        contestant_number = int(score_entry["contestant"])
         weighted_score = score_entry["weighted_score"]
         scores_by_contestant.setdefault(contestant_number, []).append({
             "judge": score_entry["judge"],
             "weighted_score": weighted_score
         })
 
-    # Calculate results by category
     results_by_category = {}
     for number, scores in scores_by_contestant.items():
-        contestant = contestants[number]  # Используем int(number)
+        contestant = contestants[number]
         category = contestant["category"]
         average_weighted_score = round(
             sum(s["weighted_score"] for s in scores) / len(scores), 2
@@ -178,12 +177,41 @@ def results():
             "scores": scores
         })
 
-    # Sort results within each category
+    award_places = settings.get("award_places", {
+        "grand_prix": 1,
+        "first": 1,
+        "second": 2,
+        "third": 3
+    })
+
     for category, results in results_by_category.items():
         results.sort(key=lambda x: x["average_weighted_score"], reverse=True)
 
+        place_counter = {
+            "grand_prix": 0,
+            "first": 0,
+            "second": 0,
+            "third": 0
+        }
+
+        for i, contestant in enumerate(results):
+            if place_counter["grand_prix"] < award_places.get("grand_prix", 0):
+                contestant["place"] = "🏆"
+                place_counter["grand_prix"] += 1
+            elif place_counter["first"] < award_places.get("first", 0):
+                contestant["place"] = "🥇"
+                place_counter["first"] += 1
+            elif place_counter["second"] < award_places.get("second", 0):
+                contestant["place"] = "🥈"
+                place_counter["second"] += 1
+            elif place_counter["third"] < award_places.get("third", 0):
+                contestant["place"] = "🥉"
+                place_counter["third"] += 1
+            else:
+                contestant["place"] = "📃"
+
     return render_template("results.html", results_by_category=results_by_category, judges=data["judges"])
-    
+
 @app.route('/list')
 def list():
     # Словарь оценок по номеру участника

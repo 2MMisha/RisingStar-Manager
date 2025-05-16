@@ -1,3 +1,9 @@
 {
-    "allow_decimal": true
+    "allow_decimal": true,
+    "award_places": {
+        "grand_prix": 1,
+        "first": 3,
+        "second": 3,
+        "third": 3
+    }
 }
